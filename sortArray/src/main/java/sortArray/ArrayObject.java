@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -28,5 +29,7 @@ public class ArrayObject {
     @GeneratedValue
     @Column(name = "array_id", unique = true, nullable = false)
     Long arrayID;
+    @Column(name = "vector")
+    @ElementCollection(targetClass=Integer.class)
     List<Integer> vector;
 }
