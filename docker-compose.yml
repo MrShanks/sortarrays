@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  database:
+    build:
+      context: service/percona
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    restart: on-failure
+    ports:
+      - "3306:3306"
+    networks:
+      - default
+    volumes:
+      - percona-data:/var/lib/mysql
+
+networks:
+   default:
+     driver: bridge
+
+volumes:
+  percona-data:
