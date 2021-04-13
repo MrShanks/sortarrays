@@ -1,0 +1,4 @@
+CREATE DATABASE array;
+CREATE USER 'array'@'%' IDENTIFIED BY 'array';
+GRANT ALL PRIVILEGES ON array.* TO 'array'@'%';
+FLUSH PRIVILEGES;
