@@ -1,10 +1,15 @@
 from flask import Flask
 
-from utils import generateArray
+#from .utils import generateArray
 
 
 app = Flask(__name__)
 
-@app.route('/postArray')
+@app.route('/postArray', methods = ['POST'])
 def postArray():
-    return generateArray.generateArray()
+    return 'Postato'
+
+
+@app.route('/getArray')
+def getArray():
+    return str(generateArray.generateArray())
