@@ -13,6 +13,23 @@ services:
     volumes:
       - percona-data:/var/lib/mysql
 
+  sortarray:
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mariadb://database:3306/array"
+    build:
+      context: sortArray/
+      args:
+        DEPENDENCY: build/dependency
+    ports:
+      - "8080:8080"
+    networks:
+      - default
+    depends_on:
+      - database
+    restart: on-failure
+    links:
+      - database
+
 networks:
    default:
      driver: bridge
