@@ -11,5 +11,5 @@ def post_request(path, pload):
     Returns:
 
     """
-    result = requests.post(path, pload)
+    result = requests.post(path, json=pload)
     return result
