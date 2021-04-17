@@ -29,7 +29,8 @@ public class ArrayObject {
     @GeneratedValue
     @Column(name = "array_id", unique = true, nullable = false)
     Long arrayID;
-    @Column(name = "vector")
     @ElementCollection(targetClass=Integer.class)
-    List<Integer> vector;
+    List<Integer> elements;
+    @Column(name = "ordered_array")
+    String orderedArray;
 }

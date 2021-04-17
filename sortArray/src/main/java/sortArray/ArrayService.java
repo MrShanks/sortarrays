@@ -16,9 +16,9 @@ public class ArrayService {
 
     public void addArray(ArrayObject arrayObject) {
 
-        List<Integer> inputVector = arrayObject.getVector();
+        List<Integer> inputVector = arrayObject.getElements();
         Collections.sort(inputVector);
-        arrayObject.setVector(inputVector);
+        arrayObject.setOrderedArray(inputVector.toString());
         arrayRepository.save(arrayObject);
     }
 }
