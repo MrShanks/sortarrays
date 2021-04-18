@@ -1,29 +1,22 @@
-import json
-
-import generateArray
+import time
 import post
+import generate_array_of_random_integers
+import logger
 
 
-def main(path='http://localhost:8080/api/v1/array/default', multiplier=1, array_size=3):
-    """
-    generate an array and send it to the passed server
+log = logger.Log(__name__)
 
-    Args:
-        path: path where to make post request
-        multiplier: this is multiplier for array elements, by default they are between 0-1
-        array_size: elements of the array
 
-    Returns: response from server
+def main():
+    endpoint = 'http://localhost:8080/api/v1/array/default'
 
-    """
     while True:
-        array = generateArray.generate_array(multiplier, array_size)
-        pay_load = {'vector': array}
-        print(pay_load)
-        res = post.post_request(path, pay_load)
-        print(res)
-
-    return res
+        array = generate_array_of_random_integers.generate_array()
+        pay_load = {'elements': array}
+        result = post.post_request(endpoint, pay_load)
+        log.logger.debug(f'posted {array}')
+        log.logger.info(f'response from server: {result}')
+        time.sleep(1)
 
 
 main()

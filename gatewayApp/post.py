@@ -1,15 +1,9 @@
 import requests
+import logger
+
+log = logger.Log(__name__)
 
 
 def post_request(path, pload):
-    """
-
-    Args:
-        path:
-        pload:
-
-    Returns:
-
-    """
-    result = requests.post(path, json=pload)
-    return result
+    log.logger.debug('post is posting')
+    return requests.post(path, json=pload)
