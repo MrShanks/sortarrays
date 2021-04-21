@@ -1,6 +1,6 @@
 import time
 import post
-import generate_array_of_random_integers
+import generator
 import logger
 
 
@@ -11,7 +11,7 @@ def main():
     endpoint = 'http://localhost:8080/api/v1/array/default'
 
     while True:
-        array = generate_array_of_random_integers.generate_array()
+        array = generator.generate_array_of_random_integers()
         pay_load = {'elements': array}
         result = post.post_request(endpoint, pay_load)
         log.logger.debug(f'posted {array}')
