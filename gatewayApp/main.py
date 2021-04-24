@@ -8,7 +8,7 @@ log = logger.Log(__name__)
 
 
 def main():
-    endpoint = 'http://localhost:8080/api/v1/array/default'
+    endpoint = 'http://sortarray:8080/api/v1/array/default'
 
     while True:
         array = generator.generate_array_of_random_integers()

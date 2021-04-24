@@ -30,6 +30,18 @@ services:
     links:
       - database
 
+  gatewayapp:
+    build:
+      context: gatewayApp/
+    networks:
+      - default
+    depends_on:
+      sortarray:
+        condition: service_started
+      database:
+        condition: service_started
+    restart: on-failure
+
 networks:
    default:
      driver: bridge
