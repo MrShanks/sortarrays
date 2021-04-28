@@ -27,6 +27,7 @@ build
 
 # Python
 venv
+gateway_app_venv
 
 # Eslint
 .eslintcache
