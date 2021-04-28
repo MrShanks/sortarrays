@@ -15,5 +15,8 @@ jobs:
     - name: docker build
       run: docker build -t staffolis/sortarray/database:latest service/percona
 
+    - name: docker login
+      run: docker login
+
     - name: Push image
       run: docker push staffolis/sortarray/database:latest
