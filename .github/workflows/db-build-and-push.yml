@@ -8,11 +8,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-    
-      - name: Build and push Docker images
-        uses: docker/build-push-action@v2.4.0
-        with:
-          context: ./service/percona/
-          push: true
-          tags: staffolis/sortarray/database:latest
+  steps:
+  - uses: actions/checkout@v2
+    name: Check out code
+
+  - uses: mr-smithers-excellent/docker-build-push@v5
+    name: Build & push Docker image
+    with:
+      image: staffolis/sortarray/database
+      tags: latest
+      registry: docker.io
+      dockerfile: ./service/percona/
