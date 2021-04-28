@@ -13,7 +13,7 @@ jobs:
       name: Check out code
 
     - name: docker build
-      run: docker build -t staffolis/sortarray/database:latest service/percona
+      run: docker build -t staffolis/sortarray:latest service/percona
 
     - uses: docker/login-action@v1
       with:
@@ -21,4 +21,4 @@ jobs:
         password: ${{ secrets.DOCKER_HUB }}
 
     - name: Push image
-      run: docker push staffolis/sortarray/database:latest
+      run: docker push staffolis/sortarray:latest
