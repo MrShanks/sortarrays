@@ -13,4 +13,7 @@ jobs:
       name: Check out code
 
     - name: docker build
-      run: docker build service/percona
+      run: docker build -t staffolis/sortarray/database:latest service/percona
+
+    - name: Push image
+      run: docker push staffolis/sortarray/database:latest
