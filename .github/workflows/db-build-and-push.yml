@@ -13,7 +13,7 @@ jobs:
       name: Check out code
 
     - name: docker build
-      run: docker build -t staffolis/sortarray/database:latest service/percona
+      run: docker build -t staffolis/sortarray:latest service/percona
 
     - name: docker login
       run: docker login
