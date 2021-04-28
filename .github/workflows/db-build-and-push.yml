@@ -18,4 +18,4 @@ jobs:
         image: staffolis/sortarray/database
         tags: latest
         registry: docker.io
-        dockerfile: ./service/percona/
+        dockerfile: ./service/percona/Dockerfile
