@@ -18,10 +18,10 @@ jobs:
     - name: docker build
       run: docker build -t staffolis/sortarray:gatewayapp
 
-    - uses: docker/login-action@v1
-      with:8
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-    - name: Push image
-      run: docker push staffolis/sortarray:gatewayapp
+#    - uses: docker/login-action@v1
+#      with:8
+#        username: ${{ secrets.DOCKERHUB_USERNAME }}
+#        password: ${{ secrets.DOCKERHUB_TOKEN }}
+#
+#    - name: Push image
+#      run: docker push staffolis/sortarray:gatewayapp
