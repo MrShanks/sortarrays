@@ -16,7 +16,7 @@ jobs:
       name: Check out code
 
     - name: docker build
-      run: docker build -t staffolis/sortarray:gatewayapp
+      run: docker build -t staffolis/sortarray:gatewayapp gatewayApp/.
 
 #    - uses: docker/login-action@v1
 #      with:8
