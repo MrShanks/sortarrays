@@ -1,8 +1,7 @@
 version: '3.7'
 services:
   database:
-    build:
-      context: service/percona
+    image: staffolis/sortarray:database
     environment:
       MYSQL_ROOT_PASSWORD: password
     restart: on-failure
@@ -27,8 +26,21 @@ services:
     depends_on:
       - database
     restart: on-failure
+    healthcheck:
+      test: ["CMD", "nc", "-zv", "localhost", "8080"]
     links:
       - database
+
+  gatewayapp:
+    environment:
+      LOGLEVEL: "INFO"
+    image: staffolis/sortarray:gatewayapp
+    networks:
+      - default
+    depends_on:
+      sortarray:
+        condition: service_healthy
+    restart: on-failure
 
 networks:
    default:
