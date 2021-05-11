@@ -26,16 +26,20 @@ services:
     depends_on:
       - database
     restart: on-failure
+    healthcheck:
+      test: ["CMD", "nc", "-zv", "localhost", "8080"]
     links:
       - database
 
   gatewayapp:
+    environment:
+      LOGLEVEL: "INFO"
     image: staffolis/sortarray:gatewayapp
     networks:
       - default
     depends_on:
       sortarray:
-        condition: service_started
+        condition: service_healthy
     restart: on-failure
 
 networks:

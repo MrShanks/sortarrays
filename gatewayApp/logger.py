@@ -1,11 +1,13 @@
 import logging
+import os
 
 
 class Log:
     def __init__(self, module_name):
         # Create a custom logger
         self.logger = logging.getLogger(module_name)
-        self.logger.setLevel(logging.INFO)
+        loglevel = os.environ.get('LOGLEVEL', 'INFO').upper()
+        self.logger.setLevel(loglevel)
 
         # Create a custom handler
         self.stream_handler = logging.StreamHandler()
