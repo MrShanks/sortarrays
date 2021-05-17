@@ -1,0 +1,62 @@
+name: gatewayapp-action
+
+on:
+  pull_request:
+
+jobs:
+  build-database:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Docker build
+        run: docker build -t staffolis/sortarray:database service/percona
+
+      - name: Login docker-hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push image
+        run: docker push staffolis/sortarray:database
+
+  build-sortarray:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Docker build
+        run: docker build -t staffolis/sortarray:sortarray sortarray/.
+
+      - name: Login docker-hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push image
+        run: docker push staffolis/sortarray:sortarray
+
+  build-gatewayapp:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Docker build
+        run: docker build -t staffolis/sortarray:gatewayapp gatewayApp/.
+
+      - name: Login docker-hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push image
+        run: docker push staffolis/sortarray:gatewayapp
