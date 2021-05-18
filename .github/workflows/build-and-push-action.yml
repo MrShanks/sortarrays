@@ -36,7 +36,7 @@ jobs:
         run: ls sortArray/
 
       - name: TEST
-        run: cd sortArray && ./gradlew build
+        run: cd sortArray && ./gradlew build -x test
 
       - name: CD
         run: cd ..
