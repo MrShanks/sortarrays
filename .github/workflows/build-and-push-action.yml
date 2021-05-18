@@ -32,7 +32,16 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
+      - name: LS
+        run: ls sortArray/
+
       - name: TEST
+        run: cd sortArray && ./gradlew build
+
+      - name: CD
+        run: cd ..
+
+      - name: LS
         run: ls sortArray/
 
       - name: Docker build
