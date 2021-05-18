@@ -46,6 +46,8 @@ jobs:
 
       - name: move dependency
         run: mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*.jar)
+
+      - name: CD
         run: cd ..
 
       - name: Docker build
