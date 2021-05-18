@@ -31,9 +31,9 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-        
-      - name: Unzip jar
-        run: mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/* .jar)
+
+      - name: TEST
+        run: ll sortArray/
 
       - name: Docker build
         run: docker build -t staffolis/sortarray:sortarray sortArray/.
