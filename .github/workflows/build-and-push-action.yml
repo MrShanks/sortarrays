@@ -48,11 +48,11 @@ jobs:
       - name: JAVA
         run: echo $JAVA_HOME
 
-      - name: JAR
-        run: jar
+#      - name: JAR
+#        run: jar
 
       - name: move dependency
-        run: mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*.jar) && cd ..
+        run: mkdir -p build/dependency && (cd build/dependency; jar xf ../libs/*.jar) && cd ..
 
       - name: Docker build
         run: docker build -t staffolis/sortarray:sortarray sortArray/.
