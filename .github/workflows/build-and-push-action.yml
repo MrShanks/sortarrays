@@ -52,7 +52,7 @@ jobs:
         run: cd sortArray && ./gradlew build && cd ..
 
       - name: LS
-        run: ls sortArray/build/libs/
+        run: ls $JAVA_HOME/bin
 
       - name: JAVA
         run: echo $JAVA_HOME
