@@ -39,26 +39,20 @@ jobs:
       - name: Run database
         run: docker run -d -e MYSQL_ROOT_PASSWORD=password --publish 3306:3306 --network bridge -v percona-data:/var/lib/mysql staffolis/sortarray:database
 
-      - name: LS
-        run: ls sortArray/
-
-      - name: TEST
-        run: cd sortArray && ./gradlew build
-
-      - name: CD
-        run: cd ..
-
-      - name: LS
-        run: ls sortArray/
+      - name: Gradlew build
+        run: cd sortArray && ./gradlew build && cd ..
 
       - name: LS
         run: ls sortArray/build/libs/
 
-      - name: move dependency
-        run: mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*.jar)
+      - name: JAVA
+        run: echo $JAVA_HOME
 
-      - name: CD
-        run: cd ..
+      - name: JAR
+        run: jar
+
+      - name: move dependency
+        run: mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*.jar) && cd ..
 
       - name: Docker build
         run: docker build -t staffolis/sortarray:sortarray sortArray/.
