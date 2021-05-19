@@ -58,7 +58,7 @@ jobs:
         run: echo $JAVA_HOME
 
       - name: move dependency
-        run: mkdir -p build/dependency && (cd build/dependency; jar xf ../libs/*.jar) && cd ..
+        run: mkdir -p build/dependency && (cd build/dependency; $JAVA_HOME/bin/jar xf ../libs/*.jar) && cd ..
 
       - name: Docker build
         run: docker build -t staffolis/sortarray:sortarray sortArray/.
