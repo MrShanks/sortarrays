@@ -37,7 +37,7 @@ jobs:
           token: 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
 
       - name: Run database
-        run: docker run -e MYSQL_ROOT_PASSWORD=password --publish 3306:3306 --network bridge -v percona-data:/var/lib/mysql staffolis/sortarray:database
+        run: docker run -d -e MYSQL_ROOT_PASSWORD=password --publish 3306:3306 --network bridge -v percona-data:/var/lib/mysql staffolis/sortarray:database
 
       - name: LS
         run: ls sortArray/
