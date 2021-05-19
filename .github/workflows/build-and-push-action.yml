@@ -36,6 +36,15 @@ jobs:
         with:
           token: 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
 
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Build with Maven
+        run: mvn --batch-mode --update-snapshots verify
+
       - name: Run database
         run: docker run -d -e MYSQL_ROOT_PASSWORD=password --publish 3306:3306 --network bridge -v percona-data:/var/lib/mysql staffolis/sortarray:database
 
@@ -47,9 +56,6 @@ jobs:
 
       - name: JAVA
         run: echo $JAVA_HOME
-
-#      - name: JAR
-#        run: jar
 
       - name: move dependency
         run: mkdir -p build/dependency && (cd build/dependency; jar xf ../libs/*.jar) && cd ..
