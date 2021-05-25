@@ -60,8 +60,11 @@ jobs:
       - name: move dependency
         run: mkdir -p build/dependency && cd build/dependency
 
+      - name: Grant execute permission tojar file
+        run: chmod +x *.jar
+
       - name: move dependency
-        run: $JAVA_HOME/bin/jar -xf ../libs/sortArray-0.0.1-SNAPSHOT.jar && cd ..
+        run: $JAVA_HOME/bin/jar -xf ../libs/*.jar && cd ..
 
 
       - name: Docker build
