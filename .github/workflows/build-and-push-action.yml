@@ -61,7 +61,7 @@ jobs:
         run: mkdir -p build/dependency && cd build/dependency
 
       - name: Grant execute permission tojar file
-        run: chmod +x *.jar
+        run: chmod +x sortArray-0.0.1-SNAPSHOT.jar
 
       - name: move dependency
         run: $JAVA_HOME/bin/jar -xf ../libs/*.jar && cd ..
