@@ -5,16 +5,17 @@ on:
 
 jobs:
   build-database:
+    env:
+      COMMIT_HASH: $(git rev-parse HEAD)
+
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-        with:
-          token: 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
 
       - name: Docker build
-        run: docker build -t staffolis/sortarray:database service/percona
+        run: docker build -t staffolis/sortarray:database-$COMMIT_HASH service/percona
 
       - name: Login docker-hub
         uses: docker/login-action@v1
@@ -23,16 +24,17 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push image
-        run: docker push staffolis/sortarray:database
+        run: docker push staffolis/sortarray:database-$COMMIT_HASH
 
   build-sortarray:
+    env:
+      COMMIT_HASH: $(git rev-parse HEAD)
+
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-        with:
-          token: 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
 
       - name: Set up JDK 8
         uses: actions/setup-java@v2
@@ -56,7 +58,7 @@ jobs:
         run: cd sortArray/build/dependency && $JAVA_HOME/bin/jar -xf ../libs/*.jar
 
       - name: Docker build
-        run: docker build -t staffolis/sortarray:sortarray-$GITHUB_SHA sortArray/.
+        run: docker build -t staffolis/sortarray:sortarray-$COMMIT_HASH sortArray/.
 
       - name: Login docker-hub
         uses: docker/login-action@v1
@@ -65,9 +67,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push image
-        run: docker push staffolis/sortarray:sortarray-$GITHUB_SHA
+        run: docker push staffolis/sortarray:sortarray-$COMMIT_HASH
 
   build-gatewayapp:
+    env:
+      COMMIT_HASH: $(git rev-parse HEAD)
+
     runs-on: ubuntu-latest
 
     steps:
@@ -75,7 +80,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Docker build
-        run: docker build -t staffolis/sortarray:gatewayapp gatewayApp/.
+        run: docker build -t staffolis/sortarray:gatewayapp-$COMMIT_HASH gatewayApp/.
 
       - name: Login docker-hub
         uses: docker/login-action@v1
@@ -84,4 +89,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push image
-        run: docker push staffolis/sortarray:gatewayapp
+        run: docker push staffolis/sortarray:gatewayapp-$COMMIT_HASH
