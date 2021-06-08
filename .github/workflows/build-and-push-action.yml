@@ -61,7 +61,7 @@ jobs:
         run: ls
 
       - name: move dependency
-        run: mkdir -p build/dependency && cd build/dependency
+        run: mkdir -p sortArray/build/dependency
 
       - name: LS
         run: ls
@@ -70,7 +70,7 @@ jobs:
         run: pwd
 
       - name: extract dependency
-        run: $JAVA_HOME/bin/jar -xf ../libs/*.jar && cd ..
+        run: cd sortArray/build/dependency && $JAVA_HOME/bin/jar -xf ../libs/*.jar
 
       - name: Docker build
         run: docker build -t staffolis/sortarray:sortarray sortArray/.
