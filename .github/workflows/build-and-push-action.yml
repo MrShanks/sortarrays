@@ -9,14 +9,13 @@ jobs:
 
     steps:
       - name: export commit_hash
-        env:
-          COMMIT_HASH: $(git rev-parse HEAD)
+        run: echo "COMMIT_HASH = $(git rev-parse HEAD)" >> &GITHUB_ENV
 
       - name: Check out code
         uses: actions/checkout@v2
 
       - name: Docker build
-        run: docker build -t staffolis/sortarray:database-$COMMIT_HASH service/percona
+        run: docker build -t staffolis/sortarray:database-${{ env.COMMIT_HASH }} service/percona
 
       - name: Login docker-hub
         uses: docker/login-action@v1
