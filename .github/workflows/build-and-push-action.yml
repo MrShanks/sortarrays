@@ -51,29 +51,14 @@ jobs:
       - name: Gradlew build
         run: cd sortArray && ./gradlew build
 
-      - name: LS
-        run: ls
-
-      - name: cd
-        run: cd sortArray
-
-      - name: LS
-        run: ls
-
       - name: move dependency
         run: mkdir -p sortArray/build/dependency
-
-      - name: LS
-        run: ls
-
-      - name: print pwd
-        run: pwd
 
       - name: extract dependency
         run: cd sortArray/build/dependency && $JAVA_HOME/bin/jar -xf ../libs/*.jar
 
       - name: Docker build
-        run: docker build -t staffolis/sortarray:sortarray sortArray/.
+        run: docker build -t staffolis/sortarray:sortarray_$(git rev-parse --short "$GITHUB_SHA") sortArray/.
 
       - name: Login docker-hub
         uses: docker/login-action@v1
