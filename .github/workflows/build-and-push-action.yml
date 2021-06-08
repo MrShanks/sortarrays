@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: export commit_hash
-        run: echo "COMMIT_HASH = $(git rev-parse HEAD)" >> &GITHUB_ENV
+        run: echo "COMMIT_HASH = $(git rev-parse HEAD)" >> $GITHUB_ENV
 
       - name: Check out code
         uses: actions/checkout@v2
@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: export commit_hash
-        run: echo "COMMIT_HASH = $(git rev-parse HEAD)" >> &GITHUB_ENV
+        run: echo "COMMIT_HASH = $(git rev-parse HEAD)" >> $GITHUB_ENV
 
       - name: Check out code
         uses: actions/checkout@v2
@@ -74,7 +74,7 @@ jobs:
 
     steps:
       - name: export commit_hash
-        run: echo "COMMIT_HASH = $(git rev-parse HEAD)" >> &GITHUB_ENV
+        run: echo "COMMIT_HASH = $(git rev-parse HEAD)" >> $GITHUB_ENV
 
       - name: Check out code
         uses: actions/checkout@v2
