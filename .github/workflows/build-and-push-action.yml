@@ -54,14 +54,17 @@ jobs:
       - name: LS
         run: ls
 
+      - name: cd
+        run: cd sortArray
+
+      - name: LS
+        run: ls
+
       - name: move dependency
         run: mkdir -p build/dependency && cd build/dependency
 
       - name: LS
         run: ls
-
-      - name: jar
-        run: find / -iname "*jar" | grep SNAPSHOT
 
       - name: print pwd
         run: pwd
