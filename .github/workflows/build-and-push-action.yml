@@ -5,12 +5,13 @@ on:
 
 jobs:
   build-database:
-    env:
-      COMMIT_HASH: $(git rev-parse HEAD)
-
     runs-on: ubuntu-latest
 
     steps:
+      - name: export commit_hash
+        env:
+          COMMIT_HASH: $(git rev-parse HEAD)
+
       - name: Check out code
         uses: actions/checkout@v2
 
@@ -27,12 +28,13 @@ jobs:
         run: docker push staffolis/sortarray:database-$COMMIT_HASH
 
   build-sortarray:
-    env:
-      COMMIT_HASH: $(git rev-parse HEAD)
-
     runs-on: ubuntu-latest
 
     steps:
+      - name: export commit_hash
+        env:
+          COMMIT_HASH: $(git rev-parse HEAD)
+
       - name: Check out code
         uses: actions/checkout@v2
 
@@ -70,12 +72,13 @@ jobs:
         run: docker push staffolis/sortarray:sortarray-$COMMIT_HASH
 
   build-gatewayapp:
-    env:
-      COMMIT_HASH: $(git rev-parse HEAD)
-
     runs-on: ubuntu-latest
 
     steps:
+      - name: export commit_hash
+        env:
+          COMMIT_HASH: $(git rev-parse HEAD)
+
       - name: Check out code
         uses: actions/checkout@v2
 
