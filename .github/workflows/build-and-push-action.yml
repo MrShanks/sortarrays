@@ -49,7 +49,7 @@ jobs:
         run: docker run -d -e MYSQL_ROOT_PASSWORD=password --publish 3306:3306 --network bridge -v percona-data:/var/lib/mysql staffolis/sortarray:database
 
       - name: Gradlew build
-        run: cd sortArray && ./gradlew build && cd ..
+        run: cd sortArray && ./gradlew build
 
       - name: LS
         run: ls
