@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   database:
-    image: staffolis/sortarray:database
+    image: staffolis/sortarray:database-27be8b858f148957c393c1484269344957e408a1
     environment:
       MYSQL_ROOT_PASSWORD: password
     restart: on-failure
@@ -34,7 +34,7 @@ services:
   gatewayapp:
     environment:
       LOGLEVEL: "INFO"
-    image: staffolis/sortarray:gatewayapp
+    image: staffolis/sortarray:gatewayapp-27be8b858f148957c393c1484269344957e408a1
     networks:
       - default
     depends_on:

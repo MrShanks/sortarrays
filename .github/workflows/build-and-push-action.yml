@@ -36,9 +36,6 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
 
-      - name: Grant execute permission for gradlew
-        run: cd sortArray && chmod +x ./gradlew
-
       - name: Run database
         run: docker run -d -e MYSQL_ROOT_PASSWORD=password --publish 3306:3306 --network bridge -v percona-data:/var/lib/mysql staffolis/sortarray:database
 
