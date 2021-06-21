@@ -36,8 +36,10 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
 
+      #- name: Run database
+      #  run: docker run -d -e MYSQL_ROOT_PASSWORD=password --publish 3306:3306 --network bridge -v percona-data:/var/lib/mysql staffolis/sortarray:database
       - name: Run database
-        run: docker run -d -e MYSQL_ROOT_PASSWORD=password --publish 3306:3306 --network bridge -v percona-data:/var/lib/mysql staffolis/sortarray:database
+        run: docker-compose up --detach database
 
       - name: Gradlew build
         run: cd sortArray && ./gradlew build
