@@ -1,0 +1,80 @@
+name: gatewayapp-action
+
+on:
+  pull_request:
+
+jobs:
+  build-database:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Docker build
+        run: docker build -t andrestaffoli/sortarray-database:latest service/percona
+
+      - name: Login docker-hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push image
+        run: docker push andrestaffoli/sortarray-database:latest
+
+  build-sortarray:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+
+      - name: Run database
+        run: docker-compose up --detach database
+
+      - name: Gradlew build
+        run: cd sortArray && ./gradlew build
+
+      - name: create dependency folder
+        run: mkdir -p sortArray/build/dependency
+
+      - name: extract dependency
+        run: cd sortArray/build/dependency && $JAVA_HOME/bin/jar -xf ../libs/*.jar
+
+      - name: Docker build
+        run: docker build -t andrestaffoli/sortarray-sortarray:latest sortArray/.
+
+      - name: Login docker-hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push image
+        run: docker push andrestaffoli/sortarray-sortarray:latest
+
+  build-gatewayapp:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Docker build
+        run: docker build -t andrestaffoli/sortarray-gatewayapp:latest gatewayApp/.
+
+      - name: Login docker-hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push image
+        run: docker push andrestaffoli/sortarray-gatewayapp:latest

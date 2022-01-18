@@ -1,31 +1,28 @@
 version: '3.7'
 services:
   database:
-    image: staffolis/sortarray:database
+    image: andrestaffoli/sortarray-database:latest
     environment:
       MYSQL_ROOT_PASSWORD: password
-    restart: on-failure
     ports:
       - "3306:3306"
     networks:
       - default
+    restart: on-failure
     volumes:
       - percona-data:/var/lib/mysql
 
   sortarray:
     environment:
       SPRING_DATASOURCE_URL: "jdbc:mariadb://database:3306/array"
-    build:
-      context: sortArray/
-      args:
-        DEPENDENCY: build/dependency
+    image: andrestaffoli/sortarray-sortarray:latest
     ports:
       - "8080:8080"
     networks:
       - default
+    restart: on-failure
     depends_on:
       - database
-    restart: on-failure
     healthcheck:
       test: ["CMD", "nc", "-zv", "localhost", "8080"]
     links:
@@ -34,7 +31,7 @@ services:
   gatewayapp:
     environment:
       LOGLEVEL: "INFO"
-    image: staffolis/sortarray:gatewayapp
+    image: andrestaffoli/sortarray-gatewayapp:latest
     networks:
       - default
     depends_on:
