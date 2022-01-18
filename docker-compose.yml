@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   database:
-    image: staffolis/sortarray:database
+    image: andrestaffoli/sortarray-database:latest
     environment:
       MYSQL_ROOT_PASSWORD: password
     restart: on-failure
@@ -15,10 +15,7 @@ services:
   sortarray:
     environment:
       SPRING_DATASOURCE_URL: "jdbc:mariadb://database:3306/array"
-    build:
-      context: sortArray/
-      args:
-        DEPENDENCY: build/dependency
+    image: andrestaffoli/sortarray-sortarray:latest
     ports:
       - "8080:8080"
     networks:
@@ -34,7 +31,7 @@ services:
   gatewayapp:
     environment:
       LOGLEVEL: "INFO"
-    image: staffolis/sortarray:gatewayapp
+    image: andrestaffoli/sortarray-gatewayapp:latest
     networks:
       - default
     depends_on:
