@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Docker build
-        run: docker build -t andrestaffoli/sortarray-database:latest service/percona
+        run: docker build -t andrestaffoli/sortarray-database:${{ github.event.pull_request.head.sha }} service/percona
 
       - name: Login docker-hub
         uses: docker/login-action@v1
@@ -21,7 +21,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push image
-        run: docker push andrestaffoli/sortarray-database:latest
+        run: docker push andrestaffoli/sortarray-database:${{ github.event.pull_request.head.sha }}
 
   build-sortarray:
     runs-on: ubuntu-latest
@@ -49,7 +49,7 @@ jobs:
         run: cd sortArray/build/dependency && $JAVA_HOME/bin/jar -xf ../libs/*.jar
 
       - name: Docker build
-        run: docker build -t andrestaffoli/sortarray-sortarray:latest sortArray/.
+        run: docker build -t andrestaffoli/sortarray-sortarray:${{ github.event.pull_request.head.sha }} sortArray/.
 
       - name: Login docker-hub
         uses: docker/login-action@v1
@@ -58,7 +58,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push image
-        run: docker push andrestaffoli/sortarray-sortarray:latest
+        run: docker push andrestaffoli/sortarray-sortarray:${{ github.event.pull_request.head.sha }}
 
   build-gatewayapp:
     runs-on: ubuntu-latest
@@ -68,7 +68,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Docker build
-        run: docker build -t andrestaffoli/sortarray-gatewayapp:latest gatewayApp/.
+        run: docker build -t andrestaffoli/sortarray-gatewayapp:${{ github.event.pull_request.head.sha }} gatewayApp/.
 
       - name: Login docker-hub
         uses: docker/login-action@v1
@@ -77,4 +77,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push image
-        run: docker push andrestaffoli/sortarray-gatewayapp:latest
+        run: docker push andrestaffoli/sortarray-gatewayapp:${{ github.event.pull_request.head.sha }}
