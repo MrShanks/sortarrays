@@ -13,7 +13,7 @@ services:
       - percona-data:/var/lib/mysql
 
   sortarray:
-    image: andrestaffoli/sortarray-sortarray:go
+    image: andrestaffoli/sortarray-sortarray:latest
     ports:
       - "8080:8080"
     networks:
