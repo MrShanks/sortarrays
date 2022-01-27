@@ -18,6 +18,7 @@ func HomePage(w http.ResponseWriter, r *http.Request) {
 
 func CreateNewArray(w http.ResponseWriter, r *http.Request) {
 	requestBody, _ := ioutil.ReadAll(r.Body)
+
 	var array model.Array
 	var tmpArray model.TMPArray
 	var unorderedArray string
@@ -52,8 +53,8 @@ func GetArrayByID(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllArrays(w http.ResponseWriter, r *http.Request) {
-	var array []model.Array
-	database.Connector.Find(&array)
+	var arrays []model.Array
+	database.Connector.Find(&arrays)
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(array)
+	json.NewEncoder(w).Encode(arrays)
 }
