@@ -30,23 +30,8 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Set up JDK 8
-        uses: actions/setup-java@v2
-        with:
-          java-version: '8'
-          distribution: 'adopt'
-
-      - name: Run database
-        run: docker-compose up --detach database
-
-      - name: Gradlew build
-        run: cd sortArray && ./gradlew build
-
-      - name: create dependency folder
-        run: mkdir -p sortArray/build/dependency
-
-      - name: extract dependency
-        run: cd sortArray/build/dependency && $JAVA_HOME/bin/jar -xf ../libs/*.jar
+      - name: Set up Go
+        uses: actions/setup-go@v2
 
       - name: Docker build
         run: docker build -t andrestaffoli/sortarray-sortarray:${{ github.event.pull_request.head.sha }} sortArray/.
