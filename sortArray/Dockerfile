@@ -1,14 +1,16 @@
-FROM openjdk:8-jdk-alpine
+FROM golang:1.16-alpine
 
-RUN addgroup -S spring && adduser -S spring -G spring
-
-USER spring:spring
-
-ARG DEPENDENCY=build/dependency
 EXPOSE 8080
 
-COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY ${DEPENDENCY}/META-INF /app/META-INF
-COPY ${DEPENDENCY}/BOOT-INF/classes /app
+WORKDIR /app
 
-ENTRYPOINT ["java","-cp","app:app/lib/*","sortArray.SortArrayApplication"]
+COPY go.mod ./
+COPY go.sum ./
+
+RUN go mod download
+
+COPY . ./
+
+RUN go build -o /sortarray
+
+CMD [ "/sortarray" ]

@@ -13,8 +13,6 @@ services:
       - percona-data:/var/lib/mysql
 
   sortarray:
-    environment:
-      SPRING_DATASOURCE_URL: "jdbc:mariadb://database:3306/array"
     image: andrestaffoli/sortarray-sortarray:latest
     ports:
       - "8080:8080"
