@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sortarray-gatewayapp
+  labels:
+    app: sortarray
+spec:
+  selector:
+    matchLabels:
+      octopusexport: OctopusExport
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: sortarray
+        octopusexport: OctopusExport
+    spec:
+      containers:
+        - name: sortarray-gatewayapp
+          image: 'andrestaffoli/sortarray-gatewayapp:latest'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

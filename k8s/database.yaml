@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sortarray-database
+  labels:
+    app: sortarray
+spec:
+  selector:
+    matchLabels:
+      octopusexport: OctopusExport
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: sortarray
+        octopusexport: OctopusExport
+    spec:
+      containers:
+        - name: database
+          image: 'andrestaffoli/sortarray-database:latest'
+          env:
+            - name: MYSQL_CONFIGMAP
+              valueFrom:
+                configMapKeyRef:
+                  name: database-configmap
+                  key: MYSQL_ROOT_PASSWORD
+          ports:
+            - name: endpoint
+              containerPort: 3306
+              protocol: TCP
+          volumeMounts:
+            - name: database-volume
+              mountPath: '/var/lib/mysql'
+      volumes:
+        - name: database-volume
+          configMap:
+            name: database-configmap
