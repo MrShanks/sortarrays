@@ -6,10 +6,12 @@ import (
 	"github.com/gorilla/mux"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"sort"
 	"sortarray/database"
 	"sortarray/model"
+	"time"
 )
 
 func HomePage(w http.ResponseWriter, r *http.Request) {
@@ -27,7 +29,7 @@ func CreateNewArray(w http.ResponseWriter, r *http.Request) {
 
 	unorderedArray = fmt.Sprintf("%v", tmpArray.Elements)
 
-	sort.Ints(tmpArray.Elements)
+	ShuffleSort(tmpArray.Elements)
 
 	array = model.Array{
 		Id:       tmpArray.Id,
@@ -40,6 +42,19 @@ func CreateNewArray(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(array)
+}
+
+func ShuffleSort(array []int) {
+
+	for !sort.SliceIsSorted(array, func(i, j int) bool {
+		return array[i] < array[j]
+	}) {
+		rand.Seed(time.Now().Unix())
+
+		rand.Shuffle(len(array), func(i, j int) {
+			array[i], array[j] = array[j], array[i]
+		})
+	}
 }
 
 func GetArrayByID(w http.ResponseWriter, r *http.Request) {
