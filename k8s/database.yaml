@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: database-service
 spec:
   ports:
   - port: 3306
   selector:
-    app: mysql
+    app: database-service
   clusterIP: None
 ---
 apiVersion: apps/v1
@@ -15,27 +15,41 @@ metadata:
   name: sortarray-database
   labels:
     app: sortarray
+    component: database
 spec:
-  selector:
-    matchLabels:
-      octopusexport: OctopusExport
   replicas: 1
   strategy:
     type: RollingUpdate
+  selector:
+    matchLabels:
+      app: sortarray
+      component: database
   template:
     metadata:
       labels:
         app: sortarray
-        octopusexport: OctopusExport
+        component: database
     spec:
+#      initContainers:
+#      - name: get-rights
+#        image: alpine:3
+#        # Give `mysql` user permissions a mounted volume
+#        # https://stackoverflow.com/a/51195446/4360433
+#        command: [' chown', ' -R', '999:999', '/var/lib/mysql']
+#        volumeMounts:
+#        - name: database-volume
+#          mountPath: /var/lib/mysql
       containers:
         - name: database
           image: 'andrestaffoli/sortarray-database:latest'
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: 'password'
+              valueFrom:
+                secretKeyRef:
+                 name: database-login
+                 key: password
           ports:
-            - name: endpoint
+            - name: database-port
               containerPort: 3306
               protocol: TCP
           volumeMounts:
@@ -44,4 +58,4 @@ spec:
       volumes:
         - name: database-volume
           persistentVolumeClaim:
-            claimName: mysql-pv-claim
+            claimName: database-pv-claim
