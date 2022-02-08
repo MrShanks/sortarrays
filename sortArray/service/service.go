@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/prometheus/client_golang/prometheus"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -18,30 +19,40 @@ func HomePage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Welcome to the HomePage!")
 }
 
-func CreateNewArray(w http.ResponseWriter, r *http.Request) {
-	requestBody, _ := ioutil.ReadAll(r.Body)
+func CreateNewArray(histogram *prometheus.HistogramVec) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+		code := 500
 
-	var array model.Array
-	var tmpArray model.TMPArray
-	var unorderedArray string
+		requestBody, _ := ioutil.ReadAll(r.Body)
 
-	json.Unmarshal(requestBody, &tmpArray)
+		var array model.Array
+		var tmpArray model.TMPArray
+		var unorderedArray string
 
-	unorderedArray = fmt.Sprintf("%v", tmpArray.Elements)
+		defer func() {
+			httpDuration := time.Since(start)
+			histogram.WithLabelValues(fmt.Sprintf("%d", code)).Observe(httpDuration.Seconds())
+		}()
 
-	ShuffleSort(tmpArray.Elements)
+		json.Unmarshal(requestBody, &tmpArray)
 
-	array = model.Array{
-		Id:       tmpArray.Id,
-		Elements: fmt.Sprintf("%v", tmpArray.Elements),
+		unorderedArray = fmt.Sprintf("%v", tmpArray.Elements)
+
+		ShuffleSort(tmpArray.Elements)
+
+		array = model.Array{
+			Id:       tmpArray.Id,
+			Elements: fmt.Sprintf("%v", tmpArray.Elements),
+		}
+
+		database.Connector.Create(&array)
+		log.Println(fmt.Sprintf("new array has been created: %v and sorted: %s", unorderedArray, array.Elements))
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusCreated)
+		json.NewEncoder(w).Encode(array)
 	}
-
-	database.Connector.Create(&array)
-	log.Println(fmt.Sprintf("new array has been created: %v and sorted: %s", unorderedArray, array.Elements))
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(array)
 }
 
 func ShuffleSort(array []int) {
