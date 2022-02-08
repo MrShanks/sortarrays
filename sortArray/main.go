@@ -4,8 +4,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"log"
-	"net/http"
+	"log" "net/http"
 	"sortarray/database"
 	"sortarray/service"
 )
@@ -48,7 +47,7 @@ func main() {
 
 	config :=
 		database.Config{
-			Hostname: "127.0.0.1",
+			Hostname: "database",
 			Port:     "3306",
 			User:     "root",
 			Password: "password",
