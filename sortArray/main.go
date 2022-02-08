@@ -15,7 +15,7 @@ func restController() {
 	histogram := prometheus.NewHistogramVec(prometheus.HistogramOpts{
 		Name:    "create_array",
 		Help:    "Time taken to sort and store an array",
-		Buckets: []float64{1, 2, 3, 4, 5},
+		Buckets: []float64{0.5, 1, 2, 4, 8, 16, 32},
 	}, []string{"code"})
 
 	prometheus.Register(histogram)
