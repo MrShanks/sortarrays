@@ -1,44 +1,67 @@
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: database-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
 kind: Service
 metadata:
-  name: database-service
+  name: database
 spec:
-  ports:
-  - port: 3306
   selector:
-    app: database-service
-  clusterIP: None
+    component: database
+  ports:
+  - name: http
+    port: 3306
+    targetPort: 3306
+    protocol: TCP
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: database-login
+type: kubernetes.io/basic-auth
+stringData:
+  password: password
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sortarray-database
-  labels:
-    app: sortarray
-    component: database
 spec:
   replicas: 1
   strategy:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: sortarray
       component: database
   template:
     metadata:
       labels:
-        app: sortarray
         component: database
     spec:
-#      initContainers:
-#      - name: get-rights
-#        image: alpine:3
-#        # Give `mysql` user permissions a mounted volume
-#        # https://stackoverflow.com/a/51195446/4360433
-#        command: [' chown', ' -R', '999:999', '/var/lib/mysql']
-#        volumeMounts:
-#        - name: database-volume
-#          mountPath: /var/lib/mysql
       containers:
         - name: database
           image: 'andrestaffoli/sortarray-database:latest'
