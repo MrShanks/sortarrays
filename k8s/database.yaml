@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: database-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: database-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: database
+spec:
+  selector:
+    component: database
+  ports:
+  - name: http
+    port: 3306
+    targetPort: 3306
+    protocol: TCP
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: database-login
+type: kubernetes.io/basic-auth
+stringData:
+  password: password
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sortarray-database
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      component: database
+  template:
+    metadata:
+      labels:
+        component: database
+    spec:
+      containers:
+        - name: database
+          image: 'andrestaffoli/sortarray-database:latest'
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                 name: database-login
+                 key: password
+          ports:
+            - name: database-port
+              containerPort: 3306
+              protocol: TCP
+          volumeMounts:
+            - name: database-volume
+              mountPath: '/var/lib/mysql'
+      volumes:
+        - name: database-volume
+          persistentVolumeClaim:
+            claimName: database-pv-claim
