@@ -7,8 +7,8 @@ spec:
     component: sortarray
   ports:
   - name: http
-    port: 8080
-    targetPort: 8080
+    port: {{ .Values.sortarrayPort }}
+    targetPort: {{ .Values.sortarrayTargetPort }}
     protocol: TCP
 ---
 apiVersion: apps/v1
@@ -32,6 +32,6 @@ spec:
           image: 'andrestaffoli/sortarray-sortarray:latest'
           ports:
             - name: sortarray-port
-              containerPort: 8080
+              containerPort: {{ .Values.sortarrayContainerPort }}
               protocol: TCP
 

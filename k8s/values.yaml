@@ -1,0 +1,6 @@
+databasePort: 3306
+databaseTargetPort: 3306
+databaseContainerPort: 3306
+sortarrayPort: 8080
+sortarrayTargetPort: 8080
+sortarrayContainerPort: 8080

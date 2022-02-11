@@ -34,8 +34,8 @@ spec:
     component: database
   ports:
   - name: http
-    port: 3306
-    targetPort: 3306
+    port: {{ .Values.databasePort }}
+    targetPort: {{ .Values.databaseTargetPort }}
     protocol: TCP
 ---
 apiVersion: v1
@@ -73,7 +73,7 @@ spec:
                  key: password
           ports:
             - name: database-port
-              containerPort: 3306
+              containerPort: {{ .Values.databaseContainerPort }}
               protocol: TCP
           volumeMounts:
             - name: database-volume
