@@ -26,11 +26,11 @@ var Connector *gorm.DB
 func Connect(connectionString string) error {
 	var err error
 	Connector, err = gorm.Open("mysql", connectionString)
-	Connector.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&model.Array{})
-
 	if err != nil {
 		return err
 	}
+	Connector.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&model.Array{})
+
 	log.Println("Connection was successful!!")
 	return nil
 }
