@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: database-pv
+  name: database-pv-{{ .Release.Name }}
   labels:
     type: local
 spec:
@@ -34,8 +34,8 @@ spec:
     component: database
   ports:
   - name: http
-    port: {{ .Values.databasePort }}
-    targetPort: {{ .Values.databaseTargetPort }}
+    port: 3306
+    targetPort: 3306
     protocol: TCP
 ---
 apiVersion: v1
@@ -44,7 +44,7 @@ metadata:
   name: database-login
 type: kubernetes.io/basic-auth
 stringData:
-  password: password
+  password: {{ .Values.database.password }} 
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -64,7 +64,7 @@ spec:
     spec:
       containers:
         - name: database
-          image: 'andrestaffoli/sortarray-database:latest'
+          image: 'andrestaffoli/sortarray-database:{{ .Values.general.tag }}'
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -73,7 +73,7 @@ spec:
                  key: password
           ports:
             - name: database-port
-              containerPort: {{ .Values.databaseContainerPort }}
+              containerPort: 3306
               protocol: TCP
           volumeMounts:
             - name: database-volume
