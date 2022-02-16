@@ -1,13 +1,16 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"log"
+	"math"
 	"net/http"
 	"sortarray/database"
 	"sortarray/service"
+	"time"
 )
 
 func restController() {
@@ -44,8 +47,16 @@ func Health() http.HandlerFunc {
 	}
 }
 
+func retryBackOff(attempt float64) {
+	wait := math.Pow(2, attempt)
+	next := math.Pow(2, attempt+1)
+	time.Sleep(time.Duration(wait) * time.Millisecond)
+	log.Println(fmt.Sprintf("Next connection attempt will be performed in %v seconds", next/1000))
+}
+
 func main() {
 
+	counter := 0.0
 	config :=
 		database.Config{
 			Hostname: "database",
@@ -58,8 +69,10 @@ func main() {
 	connectionString := database.GetConnectionString(config)
 	err := database.Connect(connectionString)
 
-	if err != nil {
-		panic(err.Error())
+	for err != nil {
+		retryBackOff(counter)
+		err = database.Connect(connectionString)
+		counter++
 	}
 
 	restController()
