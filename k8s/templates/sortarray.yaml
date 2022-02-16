@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: sortarray
-          image: 'andrestaffoli/sortarray-sortarray:latest'
+          image: 'andrestaffoli/sortarray-sortarray:{{ .Values.general.tag }}'
           ports:
             - name: sortarray-port
               containerPort: 8080
