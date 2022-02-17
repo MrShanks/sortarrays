@@ -8,7 +8,7 @@ import math
 log = logger.Log(__name__)
 
 config = dict(
-         HOST = 'http://127.0.0.1',
+         HOST = 'http://sortarray',
          PORT = '8080',
          URL = '/api/v1/array/default',
          HEALTH = '/health'
@@ -21,7 +21,7 @@ def retry_back_off(attempt):
     log.logger.warning("Next connection attempt will be performed in {} seconds".format(next))
 
 def main():
-    for i in range(10):
+    while True:
         array = generator.generate_array_of_random_integers()
         pay_load = {'elements': array}
 
