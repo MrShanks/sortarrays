@@ -14,6 +14,9 @@ services:
 
   sortarray:
     image: andrestaffoli/sortarray-sortarray:latest
+    environment:
+      DB_PASSWORD: password
+      DB_HOSTNAME: database
     ports:
       - "8080:8080"
     networks:
@@ -21,8 +24,6 @@ services:
     restart: on-failure
     depends_on:
       - database
-    healthcheck:
-      test: ["CMD", "nc", "-zv", "localhost", "8080"]
     links:
       - database
 
