@@ -8,6 +8,7 @@ import (
 	"log"
 	"math"
 	"net/http"
+	"os"
 	"sortarray/database"
 	"sortarray/service"
 	"time"
@@ -59,10 +60,10 @@ func main() {
 	counter := 0.0
 	config :=
 		database.Config{
-			Hostname: "database",
+			Hostname: os.Getenv("DB_HOSTNAME"),
 			Port:     "3306",
 			User:     "root",
-			Password: "password",
+			Password: os.Getenv("DB_PASSWORD"),
 			Database: "array",
 		}
 

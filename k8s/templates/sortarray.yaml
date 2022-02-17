@@ -30,8 +30,15 @@ spec:
       containers:
         - name: sortarray
           image: 'andrestaffoli/sortarray-sortarray:{{ .Values.general.tag }}'
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                 name: database-login
+                 key: password
+            - name: DB_HOSTNAME
+              value: "database"
           ports:
             - name: sortarray-port
               containerPort: 8080
               protocol: TCP
-
