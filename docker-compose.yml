@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   database:
-    image: andrestaffoli/sortarray-database:e057591ccbc0402f955a1448eb2abfde1e4b86e5
+    image: andrestaffoli/sortarray-database:latest
     environment:
       MYSQL_ROOT_PASSWORD: password
     ports:
@@ -13,7 +13,7 @@ services:
       - percona-data:/var/lib/mysql
 
   sortarray:
-    image: andrestaffoli/sortarray-sortarray:e057591ccbc0402f955a1448eb2abfde1e4b86e5
+    image: andrestaffoli/sortarray-sortarray:latest
     ports:
       - "8080:8080"
     networks:
@@ -29,7 +29,7 @@ services:
   gatewayapp:
     environment:
       LOGLEVEL: "INFO"
-    image: andrestaffoli/sortarray-gatewayapp:e057591ccbc0402f955a1448eb2abfde1e4b86e5
+    image: andrestaffoli/sortarray-gatewayapp:latest
     networks:
       - default
     depends_on:
