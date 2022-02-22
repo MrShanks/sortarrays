@@ -59,7 +59,7 @@ func main() {
 	counter := 0.0
 	config :=
 		database.Config{
-			Hostname: "localhost",
+			Hostname: "database",
 			Port:     "3306",
 			User:     "root",
 			Password: "password",
