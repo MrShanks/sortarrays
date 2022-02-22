@@ -5,7 +5,7 @@ import generator
 import logger
 import math
 
-CONFIG = ConnectionConfig('http://localhost', '8080', '/api/v1/array/default', '/health')
+CONFIG = ConnectionConfig('http://sortarray', '8080', '/api/v1/array/default', '/health')
 
 BASE_URL = '{}:{}'.format(CONFIG.get_host(), CONFIG.get_port())
 ARRAY_URL = '{}{}'.format(BASE_URL, CONFIG.get_endpoint())
