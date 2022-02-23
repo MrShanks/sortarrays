@@ -36,7 +36,7 @@ On the Stack Management page, select **Data -> Index Management**
 
 Once logstash is indexed  go to **Kibana -> Index Patterns** and then **Create index pattern** button.
 
-Define a new index Pattern called `logstash**` and then click on **Next step** button to continue
+Define a new index Pattern called `logstash*` and then click on **Next step** button to continue
 
 Configure the primary time field to use with the new index pattern by selecting the @timestamp option from the **Time field** drop-down. Click the **Create index pattern** button to complete creation of the index pattern.
 
