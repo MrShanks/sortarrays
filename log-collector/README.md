@@ -30,6 +30,11 @@ kubectl apply -f ./fluentd
 
 ## Interact with the dashboard
 
+Port forward `svc/kibana-kibana`
+```
+kubectl port-forward svc/kibana-kibana 5601 -n log-monitoring
+```
+
 Expand the burger menu and click on **Management -> Stack Management**
 
 On the Stack Management page, select **Data -> Index Management**
