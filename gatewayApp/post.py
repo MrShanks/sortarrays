@@ -3,20 +3,22 @@ import logger
 
 log = logger.Log(__name__)
 
+
 def query_string_format(**kwargs):
-    return '{host}:{port}{endpoint}'.format(host = kwargs['HOST'], port = kwargs['PORT'], endpoint = kwargs['URL'])
+    return '{host}:{port}{endpoint}'.format(host = kwargs['host'], port = kwargs['port'], endpoint = kwargs['url'])
+
 
 def health_request(**kwargs):
     log.logger.debug('Health request on address:{}'
-                    .format(query_string_format(**dict(kwargs, **{'URL' : kwargs['HEALTH']}))))
+                    .format(query_string_format(**dict(kwargs, **{'url' : kwargs['health']}))))
     try:
-        r = requests.get(query_string_format(**dict(kwargs, **{'URL' : kwargs['HEALTH']})))
+        r = requests.get(query_string_format(**dict(kwargs, **{'url' : kwargs['health']})))
     except requests.exceptions.RequestException as e:
-        return 
+        return
     return r
+
 
 def post_request(pload, **kwargs):
     log.logger.debug('Posting on address: {}'
                     .format(query_string_format(**kwargs)))
-    response = requests.post(query_string_format(**kwargs), json=pload)
-    return response
+    return requests.post(query_string_format(**kwargs), json=pload)
