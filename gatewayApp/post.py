@@ -10,9 +10,9 @@ def query_string_format(**kwargs):
 
 def health_request(**kwargs):
     log.logger.debug('Health request on address:{}'
-                    .format(query_string_format(**dict(kwargs, **{'url' : kwargs['health']}))))
+                    .format(query_string_format(**dict(kwargs, **{'endpoint' : kwargs['health']}))))
     try:
-        r = requests.get(query_string_format(**dict(kwargs, **{'url' : kwargs['health']})))
+        r = requests.get(query_string_format(**dict(kwargs, **{'endpoint' : kwargs['health']})))
     except requests.exceptions.RequestException as e:
         return
     return r

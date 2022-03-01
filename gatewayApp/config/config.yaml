@@ -1,4 +1,4 @@
 host : 'http://sortarray'
 port : '8080'
-url : '/api/v1/array/default'
+endpoint : '/api/v1/array/default'
 health : '/health'

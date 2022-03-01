@@ -15,6 +15,11 @@ def retry_back_off(attempt):
 
 
 def main():
+    log = logger.Log(__name__)
+
+    with open(os.path.dirname(os.path.abspath(__file__)) + '/config/config.yaml') as file:
+        config = yaml.load(file, Loader=yaml.FullLoader)
+        
     while True:
         pay_load = {'elements': generator.generate_array_of_random_integers()}
 
@@ -34,9 +39,4 @@ def main():
 
 
 if __name__ == "__main__":
-    log = logger.Log(__name__)
-
-    with open(os.path.dirname(os.path.abspath(__file__)) + '/config/config.yaml') as file:
-        config = yaml.load(file, Loader=yaml.FullLoader)
-
     main()
