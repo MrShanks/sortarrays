@@ -15,5 +15,5 @@ spec:
         component: gatewayapp
     spec:
       containers:
-        - name: sortarray-gatewayapp
+        - name: gatewayapp
           image: 'andrestaffoli/sortarray-gatewayapp:{{ .Values.general.tag }}'

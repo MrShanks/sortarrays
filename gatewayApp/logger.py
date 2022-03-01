@@ -13,7 +13,7 @@ class Log:
         self.stream_handler = logging.StreamHandler()
 
         # Create formatters and add it to handlers
-        self.stream_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        self.stream_formatter = logging.Formatter('%(asctime)s - %(levelname)8s - %(name)s.%(funcName)s() - %(message)s')
         self.stream_handler.setFormatter(self.stream_formatter)
 
         self.logger.addHandler(self.stream_handler)
