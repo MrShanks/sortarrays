@@ -15,7 +15,7 @@ jobs:
         run: docker build -t andrestaffoli/sortarray-database:${{ github.event.pull_request.head.sha }} service/percona
 
       - name: Docker tag
-        run: docker tag andrestaffoli/sortarray-database andrestaffoli/sortarray-database:latest
+        run: docker tag andrestaffoli/sortarray-database:${{ github.event.pull_request.head.sha }} andrestaffoli/sortarray-database:latest
 
       - name: Login docker-hub
         uses: docker/login-action@v1
