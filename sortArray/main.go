@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"sortarray/database"
+	"sortarray/jwtauth"
 	"sortarray/service"
 	"time"
 )
@@ -27,6 +28,7 @@ func restController() {
 	myRouter := mux.NewRouter().StrictSlash(true)
 
 	myRouter.HandleFunc("/", service.HomePage)
+	myRouter.HandleFunc("/signin", jwtauth.SignIn)
 	myRouter.HandleFunc("/api/v1/all", service.GetAllArrays).Methods("GET")
 	myRouter.HandleFunc("/api/v1/array/default", service.CreateNewArray(histogram)).Methods("POST")
 	myRouter.HandleFunc("/api/v1/array/{id}", service.GetArrayByID).Methods("GET")
@@ -58,6 +60,7 @@ func retryBackOff(attempt float64) {
 func main() {
 
 	counter := 0.0
+
 	config :=
 		database.Config{
 			Hostname: os.Getenv("DB_HOSTNAME"),
