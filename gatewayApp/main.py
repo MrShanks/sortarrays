@@ -5,6 +5,8 @@ import logger
 import math
 import yaml
 import os
+import multiprocessing
+import check_status_gateway
 
 log = logger.Log(__name__)
 
@@ -20,6 +22,7 @@ def retry_back_off(attempt):
 
 def main():
     check_status()
+
 
 
 def check_status():
@@ -47,4 +50,7 @@ def send():
 
 
 if __name__ == "__main__":
-    main()
+    proces1 = multiprocessing.Process(target = main)
+    proces2 = multiprocessing.Process(target = check_status_gateway.start_server)
+    proces1.start()
+    proces2.start()
