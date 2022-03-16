@@ -34,8 +34,7 @@ services:
     networks:
       - default
     depends_on:
-      sortarray:
-        condition: service_healthy
+      - sortarray
     restart: on-failure
 
 networks:
