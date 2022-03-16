@@ -1,5 +1,7 @@
 FROM python:3.8-alpine
 
+EXPOSE 3000
+
 WORKDIR /app
 
 ENV LOGLEVEL=INFO
