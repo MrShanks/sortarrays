@@ -1,16 +1,12 @@
-FROM golang:1.16-alpine
+FROM golang:1.16-alpine AS builder
 
+RUN mkdir /build
+ADD . /build
+WORKDIR /build
+RUN CGO_ENABLED=0 GOOS=linux go build -a -o sortarray .
+
+FROM alpine:3.15
 EXPOSE 8080
+COPY --from=builder /build/sortarray .
 
-WORKDIR /app
-
-COPY go.mod ./
-COPY go.sum ./
-
-RUN go mod download
-
-COPY . ./
-
-RUN go build -o /sortarray
-
-CMD [ "/sortarray" ]
+CMD [ "./sortarray" ]
