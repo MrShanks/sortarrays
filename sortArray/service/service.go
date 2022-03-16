@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"sort"
 	"sortarray/database"
+	"sortarray/jwtauth"
 	"sortarray/model"
 	"time"
 )
@@ -20,7 +21,12 @@ func HomePage(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateNewArray(histogram *prometheus.HistogramVec) http.HandlerFunc {
+
 	return func(w http.ResponseWriter, r *http.Request) {
+		err := jwtauth.AuthenticateWithJWT(w, r)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
 		start := time.Now()
 		code := 500
 
