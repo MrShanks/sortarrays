@@ -1,10 +1,13 @@
-name: Build-apps
+name: tag-images
 
 on:
-  pull_request:
+  push:
+    branches:
+      - develop
+      - master
 
 jobs:
-  build-database:
+  push-to-registry:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,7 +18,7 @@ jobs:
         run: docker build -t andrestaffoli/sortarray-database:${{ github.event.pull_request.head.sha }} service/percona
 
       - name: Docker tag
-        run: docker tag andrestaffoli/sortarray-database:${{ github.event.pull_request.head.sha }} andrestaffoli/sortarray-database:latest
+        run: docker tag andrestaffoli/sortarray-database:${{ github.event.pull_request.head.sha }} andrestaffoli/sortarray-database:${GITHUB_REF##*/}
 
       - name: Login docker-hub
         uses: docker/login-action@v1
@@ -40,7 +43,7 @@ jobs:
         run: docker build -t andrestaffoli/sortarray-sortarray:${{ github.event.pull_request.head.sha }} sortArray/.
 
       - name: Docker tag
-        run: docker tag andrestaffoli/sortarray-sortarray:${{ github.event.pull_request.head.sha }} andrestaffoli/sortarray-sortarray:latest
+        run: docker tag andrestaffoli/sortarray-sortarray:${{ github.event.pull_request.head.sha }} andrestaffoli/sortarray-sortarray:${GITHUB_REF##*/}
 
       - name: Login docker-hub
         uses: docker/login-action@v1
@@ -62,7 +65,7 @@ jobs:
         run: docker build -t andrestaffoli/sortarray-gatewayapp:${{ github.event.pull_request.head.sha }} gatewayApp/.
 
       - name: Docker tag
-        run: docker tag andrestaffoli/sortarray-gatewayapp:${{ github.event.pull_request.head.sha }} andrestaffoli/sortarray-gatewayapp:latest
+        run: docker tag andrestaffoli/sortarray-gatewayapp:${{ github.event.pull_request.head.sha }} andrestaffoli/sortarray-gatewayapp:${GITHUB_REF##*/}
 
       - name: Login docker-hub
         uses: docker/login-action@v1
