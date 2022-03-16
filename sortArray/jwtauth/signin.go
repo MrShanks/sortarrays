@@ -2,7 +2,6 @@ package jwtauth
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/golang-jwt/jwt"
 	"net/http"
 	"time"
@@ -14,10 +13,6 @@ var jwtKey = []byte("my_secret_key")
 var users = map[string]string{
 	"andrea": "passwordAndrea",
 	"simone": "passwordSimone",
-}
-
-func Signin(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "User Signed in")
 }
 
 // Credentials struct to read the username and password from the request body
@@ -67,8 +62,10 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 
 	// Create the token with the algorithm, and the claims
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
 	// Create the JWT string
 	tokenString, err := token.SignedString(jwtKey)
+
 	if err != nil {
 		// If there is an error in creating the JWT return an internal server error
 		w.WriteHeader(http.StatusInternalServerError)

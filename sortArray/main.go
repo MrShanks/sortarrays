@@ -28,7 +28,7 @@ func restController() {
 	myRouter := mux.NewRouter().StrictSlash(true)
 
 	myRouter.HandleFunc("/", service.HomePage)
-	myRouter.HandleFunc("/signin", jwtauth.SignIn)
+	myRouter.HandleFunc("/signin", jwtauth.SignIn).Methods("POST")
 	myRouter.HandleFunc("/api/v1/all", service.GetAllArrays).Methods("GET")
 	myRouter.HandleFunc("/api/v1/array/default", service.CreateNewArray(histogram)).Methods("POST")
 	myRouter.HandleFunc("/api/v1/array/{id}", service.GetArrayByID).Methods("GET")
