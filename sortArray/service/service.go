@@ -45,7 +45,7 @@ func CreateNewArray(histogram *prometheus.HistogramVec) http.HandlerFunc {
 
 		unorderedArray = fmt.Sprintf("%v", tmpArray.Elements)
 
-		ShuffleSort(tmpArray.Elements)
+		shuffleSort(tmpArray.Elements)
 
 		array = model.Array{
 			Id:       tmpArray.Id,
@@ -61,7 +61,7 @@ func CreateNewArray(histogram *prometheus.HistogramVec) http.HandlerFunc {
 	}
 }
 
-func ShuffleSort(array []int) {
+func shuffleSort(array []int) {
 
 	for !sort.SliceIsSorted(array, func(i, j int) bool {
 		return array[i] < array[j]
@@ -89,4 +89,11 @@ func GetAllArrays(w http.ResponseWriter, r *http.Request) {
 	database.Connector.Find(&arrays)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(arrays)
+}
+
+// Health Endpoint
+func Health() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("status: ok\n"))
+	}
 }
