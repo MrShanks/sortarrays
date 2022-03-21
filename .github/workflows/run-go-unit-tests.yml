@@ -1,6 +1,7 @@
 name: run-go-tests
 
-on: [push, pull_request]
+on:
+  push:
 
 jobs:
   run-go-test:
