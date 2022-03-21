@@ -1,0 +1,11 @@
+name: run-go-tests
+
+on: [push, pull_request]
+
+jobs:
+  run-go-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v3
+      - uses: actions/checkout@v3
+      - run: go test ./...

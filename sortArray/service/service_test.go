@@ -3,8 +3,8 @@ package service
 import "testing"
 
 func TestShuffleSort(t *testing.T) {
-	unsortedSlice := []int{3, 1, 4, 5}
-	sortedSlice := []int{1, 3, 4, 5}
+	unsortedSlice := []int{3, 1, 4}
+	sortedSlice := []int{1, 3, 4}
 	ShuffleSort(unsortedSlice)
 	if !checkSlices(unsortedSlice, sortedSlice) {
 		t.Fatal("the slice has not been correctly sorted")
