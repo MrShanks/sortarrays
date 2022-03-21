@@ -1,13 +1,25 @@
 package service
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
-func TestShuffleSort(t *testing.T) {
+func TestShuffleSort_shouldSortSlice_whenNormalSliceProvided(t *testing.T) {
 	unsortedSlice := []int{3, 1, 4}
 	sortedSlice := []int{1, 3, 4}
 	ShuffleSort(unsortedSlice)
 	if !checkSlices(unsortedSlice, sortedSlice) {
-		t.Fatal("the slice has not been correctly sorted")
+		t.Fatal(fmt.Sprintf("The slice has not been correctly sorted!\nExpected: %v\nGot:%v", sortedSlice, unsortedSlice))
+	}
+}
+
+func TestShuffleSort_emptySlice_isSorted(t *testing.T) {
+	unsortedSlice := []int{}
+	sortedSlice := []int{}
+	ShuffleSort(unsortedSlice)
+	if !checkSlices(unsortedSlice, sortedSlice) {
+		t.Fatal(fmt.Sprintf("The slice should be empty and therefore already sorted!\nExpected: %v\nGot:%v", sortedSlice, unsortedSlice))
 	}
 }
 
