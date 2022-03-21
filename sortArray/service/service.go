@@ -45,7 +45,7 @@ func CreateNewArray(histogram *prometheus.HistogramVec) http.HandlerFunc {
 
 		unorderedArray = fmt.Sprintf("%v", tmpArray.Elements)
 
-		shuffleSort(tmpArray.Elements)
+		ShuffleSort(tmpArray.Elements)
 
 		array = model.Array{
 			Id:       tmpArray.Id,
@@ -61,7 +61,7 @@ func CreateNewArray(histogram *prometheus.HistogramVec) http.HandlerFunc {
 	}
 }
 
-func shuffleSort(array []int) {
+func ShuffleSort(array []int) {
 
 	for !sort.SliceIsSorted(array, func(i, j int) bool {
 		return array[i] < array[j]
