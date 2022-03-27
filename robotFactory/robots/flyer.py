@@ -1,10 +1,10 @@
-import robot
+from . import robot
 
 
-class Singer(robot.Robot):
+class Flyer(robot.Robot):
     def __init__(self, name, id, *args):
         super().__init__(name, id, *args)
-        self.type = 'singer'
+        self.type = 'flyer'
 
     def main_ability(self):
-        print('Singing')
+        print('Flyging')

@@ -1,7 +1,6 @@
-import robot, singer, flyer, cleaner
+import robots
 
 id = 0
-
 class Factory:
     def __init__(self) -> None:
         pass
@@ -11,10 +10,10 @@ class Factory:
         global id
         id += 1
         if type == 'sing':
-            return singer.Singer(name, id)
+            return robots.singer.Singer(name, id)
         elif type == 'fly':
-            return flyer.Flyer(name, id)
+            return robots.flyer.Flyer(name, id)
         elif type == 'clean':
-            return cleaner.Cleaner(name, id)
+            return robots.cleaner.Cleaner(name, id)
         else:
-            return robot.Robot(name, id)
+            return robots.robot.Robot(name, id)
