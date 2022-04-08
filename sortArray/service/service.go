@@ -90,3 +90,10 @@ func GetAllArrays(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(arrays)
 }
+
+// Health Endpoint
+func Health() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("status: ok\n"))
+	}
+}

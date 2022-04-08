@@ -1,0 +1,14 @@
+name: run-go-tests
+
+on:
+  push:
+
+jobs:
+  run-go-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v3
+      - uses: actions/checkout@v3
+      - run: |
+          cd sortArray 
+          go test ./...
