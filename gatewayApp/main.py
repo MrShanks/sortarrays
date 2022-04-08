@@ -24,7 +24,6 @@ def main():
     check_status()
 
 
-
 def check_status():
     counter = 0
     status_code = post.health_request(config)
@@ -36,12 +35,13 @@ def check_status():
 
 
 def send():
+    auth = post.login_request({"username": "andrea", "password": "passwordAndrea"}, config)['Set-Cookie'].split(';')[0]
     pay_load = {'elements': generator.generate_array_of_random_integers()}
-    status_code = post.post_request(pay_load, config)
+    status_code = post.post_request(pay_load, auth, config)
     while status_code == 201:
         pay_load = {'elements': generator.generate_array_of_random_integers()}
         try:
-            status_code = post.post_request(pay_load, config)
+            status_code = post.post_request(pay_load, auth, config)
             log.logger.info('Shipped array: {}'.format(pay_load['elements']))
             time.sleep(1)
         except Exception as e:
