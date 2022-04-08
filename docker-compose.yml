@@ -33,6 +33,8 @@ services:
     image: andrestaffoli/sortarray-gatewayapp:develop
     networks:
       - default
+    ports:
+      - "3000:3000"
     depends_on:
       - sortarray
     restart: on-failure

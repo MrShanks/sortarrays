@@ -21,7 +21,7 @@ def health_request(config):
 def post_request(pload, token, config):
     post_url = query_string_format(config, '/api/v1/array/default')
     log.logger.debug('Posting on address: {}'.format(post_url))
-    return requests.post(post_url, headers={'Cookie' : token, 'Content-Type': 'text/plain'}, data=pload).status_code
+    return requests.post(post_url, headers={'Cookie' : token, 'Content-Type': 'text/plain'}, json=pload).status_code
 
 
 def login_request(pload, config):
