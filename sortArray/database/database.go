@@ -29,7 +29,7 @@ func Connect(connectionString string) error {
 	if err != nil {
 		return err
 	}
-	Connector.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&model.Array{})
+	Connector.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&model.Array{}, &model.User{})
 
 	log.Println("Connection was successful!!")
 	return nil
