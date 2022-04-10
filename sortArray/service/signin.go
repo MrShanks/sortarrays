@@ -17,7 +17,7 @@ type Claims struct {
 }
 
 func SignIn(w http.ResponseWriter, r *http.Request) {
-	var creds model.Credentials
+	var creds model.User
 	// Get the JSON body and decode into credentials
 	err := json.NewDecoder(r.Body).Decode(&creds)
 	if err != nil {

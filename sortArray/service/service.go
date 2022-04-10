@@ -112,7 +112,7 @@ func CreateUser(user *model.User) {
 	log.Println(fmt.Sprintf("User : %s has been created", user.Username))
 }
 
-func CheckUserPassword(creds *model.Credentials) {
+func CheckUserPassword(creds *model.User) {
 	var dbUser model.User
 	database.Connector.Where("username = ?", creds.Username).First(&dbUser)
 	err := bcrypt.CompareHashAndPassword([]byte(dbUser.Password), []byte(creds.Password))
