@@ -1,4 +1,4 @@
 general:
-  tag: latest
+  tag: develop
 database:
   password:
