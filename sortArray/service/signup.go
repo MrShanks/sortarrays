@@ -19,6 +19,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 
 	if user.Username == "" || user.Password == "" {
 		log.Println("Username or Password is empty, that cannot be tolerated")
+		return
 	}
 
 	CreateUser(&user)
