@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus"
-	"golang.org/x/crypto/bcrypt"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -96,29 +95,4 @@ func Health() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("status: ok\n"))
 	}
-}
-
-func CreateUser(user *model.User) {
-	hashedBytePassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
-	if err != nil {
-		log.Println(fmt.Sprintf("Error occured while hashing: %v", err))
-	}
-
-	newUser := model.User{
-		Username: user.Username,
-		Password: string(hashedBytePassword),
-	}
-	database.Connector.Save(newUser)
-	log.Println(fmt.Sprintf("User : %s has been created", user.Username))
-}
-
-func CheckUserPassword(creds *model.User) {
-	var dbUser model.User
-	database.Connector.Where("username = ?", creds.Username).First(&dbUser)
-	err := bcrypt.CompareHashAndPassword([]byte(dbUser.Password), []byte(creds.Password))
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	log.Println(fmt.Sprintf("User: %s successfully authenticated", creds.Username))
 }

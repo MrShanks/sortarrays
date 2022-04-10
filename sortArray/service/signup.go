@@ -2,9 +2,12 @@ package service
 
 import (
 	"encoding/json"
+	"fmt"
+	"golang.org/x/crypto/bcrypt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"sortarray/database"
 	"sortarray/model"
 )
 
@@ -21,3 +24,16 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	CreateUser(&user)
 }
 
+func CreateUser(user *model.User) {
+	hashedBytePassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
+	if err != nil {
+		log.Println(fmt.Sprintf("Error occured while hashing: %v", err))
+	}
+
+	newUser := model.User{
+		Username: user.Username,
+		Password: string(hashedBytePassword),
+	}
+	database.Connector.Save(newUser)
+	log.Println(fmt.Sprintf("User : %s has been created", user.Username))
+}

@@ -2,8 +2,12 @@ package service
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/golang-jwt/jwt"
+	"golang.org/x/crypto/bcrypt"
+	"log"
 	"net/http"
+	"sortarray/database"
 	"sortarray/model"
 	"time"
 )
@@ -58,4 +62,15 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		Value:   tokenString,
 		Expires: expirationTime,
 	})
+}
+
+func CheckUserPassword(creds *model.User) {
+	var dbUser model.User
+	database.Connector.Where("username = ?", creds.Username).First(&dbUser)
+	err := bcrypt.CompareHashAndPassword([]byte(dbUser.Password), []byte(creds.Password))
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	log.Println(fmt.Sprintf("User: %s successfully authenticated", creds.Username))
 }
