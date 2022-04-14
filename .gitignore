@@ -32,11 +32,7 @@ gateway_app_venv
 # Eslint
 .eslintcache
 
-.config-dev/*
-!.config-dev/*.example
-
 # Virtual environment
-/service/zonewrapper/env
 __pycache__
 
 # K8s
