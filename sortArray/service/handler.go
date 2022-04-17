@@ -23,6 +23,7 @@ func RestController() {
 
 	myRouter.HandleFunc("/", HomePage)
 	myRouter.HandleFunc("/signin", jwtauth.SignIn).Methods("POST")
+	myRouter.HandleFunc("/refresh", jwtauth.Refresh).Methods("POST")
 	myRouter.HandleFunc("/api/v1/all", GetAllArrays).Methods("GET")
 	myRouter.HandleFunc("/api/v1/array/default", CreateNewArray(histogram)).Methods("POST")
 	myRouter.HandleFunc("/api/v1/array/{id}", GetArrayByID).Methods("GET")
