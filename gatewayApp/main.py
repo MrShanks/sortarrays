@@ -1,3 +1,4 @@
+import datetime
 import time
 import post
 import generator
@@ -20,6 +21,15 @@ def retry_back_off(attempt):
     log.logger.warning("Next connection attempt will be performed in {} seconds".format(next_attempt))
 
 
+def difference_between_two_times(t1,
+                                 t2 = None,
+                                 format1 = '%a, %d %b %Y %H:%M:%S %Z',
+                                 secconds = True):
+    t2 = t2 if t2 != None else datetime.datetime.utcnow()
+    deltat = datetime.datetime.strptime(t1, format1) - t2
+    return deltat.total_seconds() if secconds else deltat
+
+
 def main():
     check_status()
 
@@ -35,13 +45,19 @@ def check_status():
 
 
 def send():
-    auth = post.login_request({"username": "andrea", "password": "passwordAndrea"}, config)['Set-Cookie'].split(';')[0]
+    auth = post.login_request({"username": "andrea", "password": "passwordAndrea"}, config)
+    missing_time = difference_between_two_times(auth['Set-Cookie'].split('Expires=')[1])
+
     pay_load = {'elements': generator.generate_array_of_random_integers()}
-    status_code = post.post_request(pay_load, auth, config)
+
+    status_code = post.post_request(pay_load, auth['Set-Cookie'].split(';')[0], config)
     while status_code == 201:
+        if missing_time < 25:
+            auth = post.refresh_request(auth['Set-Cookie'].split(';')[0], config)
+        missing_time = difference_between_two_times(auth['Set-Cookie'].split('Expires=')[1])
         pay_load = {'elements': generator.generate_array_of_random_integers()}
         try:
-            status_code = post.post_request(pay_load, auth, config)
+            status_code = post.post_request(pay_load, auth['Set-Cookie'].split(';')[0], config)
             log.logger.info('Shipped array: {}'.format(pay_load['elements']))
             time.sleep(1)
         except Exception as e:

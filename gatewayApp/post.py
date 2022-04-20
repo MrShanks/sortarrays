@@ -28,3 +28,8 @@ def login_request(pload, config):
     login_url = query_string_format(config, '/signin')
     log.logger.debug('Getting token: {}'.format(login_url))
     return requests.post(login_url, json=pload).headers
+
+def refresh_request(token, config):
+    refresh_url = query_string_format(config, '/refresh')
+    log.logger.debug('Getting token: {}'.format(refresh_url))
+    return requests.post(refresh_url, headers={'Cookie' : token, 'Content-Type': 'text/plain'}).headers
