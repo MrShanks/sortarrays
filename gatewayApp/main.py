@@ -45,7 +45,8 @@ def check_status():
 
 
 def send():
-    auth = post.login_request({"username": "andrea", "password": "passwordAndrea"}, config)
+    post.signup_request(config)
+    auth = post.login_request(config)
     missing_time = difference_between_two_times(auth['Set-Cookie'].split('Expires=')[1])
 
     pay_load = {'elements': generator.generate_array_of_random_integers()}
