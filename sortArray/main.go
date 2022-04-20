@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 	"sortarray/database"
-	"sortarray/service"
+	"sortarray/handler"
 	"sortarray/utils"
 )
 
@@ -29,5 +29,5 @@ func main() {
 		counter++
 	}
 
-	service.RestController()
+	handler.RestController()
 }
