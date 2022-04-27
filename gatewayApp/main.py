@@ -14,6 +14,7 @@ log = logger.Log(__name__)
 with open(os.path.dirname(os.path.abspath(__file__)) + '/config/config.yaml') as file:
     config = yaml.load(file, Loader=yaml.FullLoader)
 
+
 def retry_back_off(attempt):
     wait = math.pow(2, attempt)
     next_attempt = math.pow(2, attempt + 1)

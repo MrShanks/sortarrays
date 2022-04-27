@@ -1,4 +1,4 @@
 host : 'http://sortarray'
 port : '8080'
-sortarray_user : 'andrea1'
-sortarray_password : 'andreaPassword1'
+username : 'andrea'
+password : 'andreaPassword1102554856'
