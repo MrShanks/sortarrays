@@ -6,6 +6,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"log"
 	"net/http"
+	"sortarray/jwtauth"
 	"sortarray/service"
 )
 
@@ -21,14 +22,14 @@ func RestController() {
 
 	myRouter := mux.NewRouter().StrictSlash(true)
 
-	myRouter.HandleFunc("/", HomePage)
+	myRouter.HandleFunc("/", service.HomePage)
 	myRouter.HandleFunc("/signin", jwtauth.SignIn).Methods("POST")
-	myRouter.HandleFunc("/signup", service.SignUp)
+	myRouter.HandleFunc("/signup", jwtauth.SignUp)
 	myRouter.HandleFunc("/refresh", jwtauth.Refresh).Methods("POST")
-	myRouter.HandleFunc("/api/v1/all", GetAllArrays).Methods("GET")
-	myRouter.HandleFunc("/api/v1/array/default", CreateNewArray(histogram)).Methods("POST")
-	myRouter.HandleFunc("/api/v1/array/{id}", GetArrayByID).Methods("GET")
-	myRouter.HandleFunc("/health", Health())
+	myRouter.HandleFunc("/api/v1/all", service.GetAllArrays).Methods("GET")
+	myRouter.HandleFunc("/api/v1/array/default", service.CreateNewArray(histogram)).Methods("POST")
+	myRouter.HandleFunc("/api/v1/array/{id}", service.GetArrayByID).Methods("GET")
+	myRouter.HandleFunc("/health", service.Health())
 	myRouter.Handle("/metrics", promhttp.HandlerFor(
 		prometheus.DefaultGatherer,
 		promhttp.HandlerOpts{
