@@ -1,19 +1,19 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: prometheus-web
-    labels:
-        app: prometheus-server
+  name: prometheus-service
+  namespace: monitoring
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/port:   '9090'
 spec:
-    type: NodePort
-    ports:
-        - port: 9090
-          protocol: TCP
-          targetPort: 9090
-          nodePort: 30090
-          name: webui
-    selector:
-        app: prometheus-server
+  selector: 
+    app: prometheus-server
+  type: NodePort  
+  ports:
+    - port: 8080
+      targetPort: 9090 
+      nodePort: 30000
 ---
 apiVersion: apps/v1
 kind: Deployment
