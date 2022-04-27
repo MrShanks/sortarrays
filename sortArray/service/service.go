@@ -24,7 +24,7 @@ func CreateNewArray(histogram *prometheus.HistogramVec) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := AuthenticateWithJWT(w, r)
 		if err != nil {
-			log.Fatal(err.Error())
+			log.Println(err.Error())
 		}
 		start := time.Now()
 		code := 500
