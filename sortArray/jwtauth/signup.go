@@ -26,6 +26,14 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateUser(user *model.User) {
+
+	var userCheck model.User
+	database.Connector.Where("username = ?", user.Username).First(&userCheck)
+	if userCheck.Username != "" {
+		log.Println(fmt.Sprintf("User: %s already exists, please chose another one", user.Username))
+		return
+	}
+
 	hashedBytePassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
 	if err != nil {
 		log.Println(fmt.Sprintf("Error occured while hashing: %v", err))
