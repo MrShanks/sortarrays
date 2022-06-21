@@ -30,7 +30,11 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	CheckUserPassword(&creds)
+	err = CheckUserPassword(&creds)
+	if err != nil {
+		log.Println(fmt.Sprintf("User: %s authentication failed:%v", creds.Username, err))
+		return
+	}
 
 	// Declare the expiration time of the token
 	expirationTime := time.Now().Add(5 * time.Minute)
@@ -64,13 +68,16 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func CheckUserPassword(creds *model.User) {
+func CheckUserPassword(creds *model.User) error {
 	var dbUser model.User
-	database.Connector.Where("username = ?", creds.Username).First(&dbUser)
-	err := bcrypt.CompareHashAndPassword([]byte(dbUser.Password), []byte(creds.Password))
+	err := database.Connector.Where("username = ?", creds.Username).First(&dbUser).Error
 	if err != nil {
-		log.Println(err)
-		return
+		return err
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(dbUser.Password), []byte(creds.Password))
+	if err != nil {
+		return err
 	}
 	log.Println(fmt.Sprintf("User: %s successfully authenticated", creds.Username))
+	return nil
 }

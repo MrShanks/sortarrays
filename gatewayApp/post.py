@@ -24,7 +24,19 @@ def post_request(pload, token, config):
     return requests.post(post_url, headers={'Cookie' : token, 'Content-Type': 'text/plain'}, json=pload).status_code
 
 
-def login_request(pload, config):
+def signup_request(config):
+    signup_url  = query_string_format(config, '/signup')
+    log.logger.debug('Signup to Sortarray')
+    return requests.post(signup_url , json={key: config.get(key) for key in ['username', 'password']}).headers
+
+
+def login_request(config):
     login_url = query_string_format(config, '/signin')
-    log.logger.debug('Getting token: {}'.format(login_url))
-    return requests.post(login_url, json=pload).headers
+    log.logger.debug('Getting token from: {}'.format(login_url))
+    return requests.post(login_url, json={key: config.get(key) for key in ['username', 'password']}).headers
+
+
+def refresh_request(token, config):
+    refresh_url = query_string_format(config, '/refresh')
+    log.logger.debug('Getting new token from: {}'.format(refresh_url))
+    return requests.post(refresh_url, headers={'Cookie' : token, 'Content-Type': 'text/plain'}).headers
