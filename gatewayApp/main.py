@@ -46,7 +46,9 @@ def check_status():
 
 
 def send():
-    post.signup_request(config)
+    status_code = post.signup_request(config)
+    if status_code == 403:
+        log.logger.warning("User already exists")
     auth = post.login_request(config)
     missing_time = difference_between_two_times(auth['Set-Cookie'].split('Expires=')[1])
 

@@ -27,7 +27,7 @@ def post_request(pload, token, config):
 def signup_request(config):
     signup_url  = query_string_format(config, '/signup')
     log.logger.debug('Signup to Sortarray')
-    return requests.post(signup_url , json={key: config.get(key) for key in ['username', 'password']}).headers
+    return requests.post(signup_url , json={key: config.get(key) for key in ['username', 'password']}).status_code
 
 
 def login_request(config):
