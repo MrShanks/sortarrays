@@ -77,7 +77,7 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: database-volume
-              mountPath: '/var/lib/mysql'
+              mountPath: '/data'
       volumes:
         - name: database-volume
           persistentVolumeClaim:
