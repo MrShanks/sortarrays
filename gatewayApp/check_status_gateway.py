@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return "<p style='color:red'>Welcome on the gatewayapp main page!</p>"
+    return "<p style='color:red'>Welcome on the Gatewayapp main page!</p>"
 
 
 @app.route("/health")
