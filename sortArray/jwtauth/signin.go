@@ -2,34 +2,26 @@ package jwtauth
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/golang-jwt/jwt"
+	"golang.org/x/crypto/bcrypt"
+	"log"
 	"net/http"
+	"sortarray/database"
+	"sortarray/model"
 	"time"
 )
 
 // Create the JWT key used to create the signature
 var jwtKey = []byte("my_secret_key")
 
-var users = map[string]string{
-	"andrea": "passwordAndrea",
-	"simone": "passwordSimone",
-}
-
-// Credentials struct to read the username and password from the request body
-type Credentials struct {
-	Password string `json:"password"`
-	Username string `json:"username"`
-}
-
-// Claims Struct that will be encoded to a JWT.
-// Add jwt.StandardClaims as an embedded type, to provide fields like expiry time
 type Claims struct {
 	Username string `json:"username"`
 	jwt.StandardClaims
 }
 
 func SignIn(w http.ResponseWriter, r *http.Request) {
-	var creds Credentials
+	var creds model.User
 	// Get the JSON body and decode into credentials
 	err := json.NewDecoder(r.Body).Decode(&creds)
 	if err != nil {
@@ -38,14 +30,9 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Get the expected password from the in memory map
-	expectedPassword, ok := users[creds.Username]
-
-	// If a password exists for the given user
-	// AND, if it is the same as the password we received, then we can move ahead
-	// if NOT, then we return an "Unauthorized" status
-	if !ok || expectedPassword != creds.Password {
-		w.WriteHeader(http.StatusUnauthorized)
+	err = CheckUserPassword(&creds)
+	if err != nil {
+		log.Println(fmt.Sprintf("User: %s authentication failed:%v", creds.Username, err))
 		return
 	}
 
@@ -79,4 +66,18 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		Value:   tokenString,
 		Expires: expirationTime,
 	})
+}
+
+func CheckUserPassword(creds *model.User) error {
+	var dbUser model.User
+	err := database.Connector.Where("username = ?", creds.Username).First(&dbUser).Error
+	if err != nil {
+		return err
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(dbUser.Password), []byte(creds.Password))
+	if err != nil {
+		return err
+	}
+	log.Println(fmt.Sprintf("User: %s successfully authenticated", creds.Username))
+	return nil
 }
