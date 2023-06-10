@@ -2,6 +2,8 @@
 
 ## About The Project
 
+This is a study project to learn how to design a microservices architecture.
+
 The project consist of two apps:
 * A gateway app that sends randomly sized arrays filled with random numbers
 * A sort array app that sorts the received arrays and store them into a mysql database
